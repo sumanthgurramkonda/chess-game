@@ -6,6 +6,7 @@ import { Position } from "../entities/Position";
 import { Board } from "./Board";
 import { Color } from "../entities/Color";
 import { MoveValidator } from "../utility/MoveValidator";
+import { Queen } from "../entities/Queen";
 
 export class Game{
 
@@ -15,6 +16,7 @@ export class Game{
     private moveStrategyMap: Map<Type, MoveStrategy>;
     private isWhiteTurn:boolean = true;
     private lastMovePos: number[][];
+    private canPromotePawn:boolean = false;
 
     constructor(){
         this.whiteDeadEntities = [];
@@ -59,6 +61,10 @@ export class Game{
         this.lastMovePos[1][0] = toRow;
         this.lastMovePos[1][1] = toCol;
 
+        if(entity.getName() === Type.PAWN && ((!this.isWhiteTurn && toRow === 0) || (this.isWhiteTurn &&toRow === 7))){
+            // promote pawn
+            this.canPromotePawn = true;
+        }
         this.changeTurn();
     }
 
@@ -101,6 +107,19 @@ export class Game{
         // return positions;
     }
 
+    public promotePawn(entity: Entity, promoteTo: Type): void {
+        const rowIndex = entity.getRowIndex();
+        const columnIndex = entity.getColumnIndex();
+        if(entity === null || entity.getName() !== Type.PAWN){
+            return;
+            // throw new Error("No pawn at the given position to promote");
+        }
+        const color = entity.getColor();
+        const newEntity = new Queen(rowIndex, columnIndex, color);
+        this.board.setPosition(rowIndex, columnIndex, newEntity);
+        this.canPromotePawn = false;
+    }
+
 
     public getEntityAtPosition(rowIndex: number, columnIndex: number): Entity | null {
         return this.board.getBoardEntity(rowIndex, columnIndex);
@@ -113,7 +132,7 @@ export class Game{
 
     public isWin():boolean{
 
-        return true;
+        return true; 
     }
 
 
@@ -140,6 +159,11 @@ export class Game{
     public getLastMovePos(): number[][]{
         return this.lastMovePos;
     }
+
+    public canPromotePawnFunc(): boolean {
+        return this.canPromotePawn;
+    }
+    
 
 }
 
