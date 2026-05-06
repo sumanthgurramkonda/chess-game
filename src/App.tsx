@@ -63,7 +63,7 @@ function App() {
   return (
     <>
         <div className="App" >
-          {game.isCheckMate() ? <div>{isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
+          {game.isCheckMate() ? <div className='win'>{isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
             grid.map((row,colIndex)=>
               <div key={colIndex} className='row'>
                 {
@@ -77,7 +77,7 @@ function App() {
                                             ? 'yellow' : (colIndex+entIndex) % 2 === 0 ? 'lightgray' : 'gray',
                               opacity : (lastMovePos[0][0] === colIndex && lastMovePos[0][1] === entIndex) || 
                                               (lastMovePos[1][0] === colIndex && lastMovePos[1][1] === entIndex)
-                                            ? 0.7 : 1,
+                                            ? 0.6 : 1,
                               boxShadow : (lastMovePos[0][0] === colIndex && lastMovePos[0][1] === entIndex) || 
                                               (lastMovePos[1][0] === colIndex && lastMovePos[1][1] === entIndex) ? '0 0 10px yellow' : 'none'
                             }

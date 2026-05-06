@@ -3,6 +3,17 @@
   margin-top: 2rem;
 }
 
+.win{
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 3rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .row{
   display: flex;
   justify-content: center;

@@ -8,25 +8,25 @@ export const PromotionEntities = ({isWhite, onClickPromotionEntity}: {isWhite: b
       return ReactDOM.createPortal (
             (<section className='promotionEntities'>
                 <img
-                  // src={require(`../assets/images/queen-${isWhite ? 'white' : 'black'}.avif`)}
+                  src={`/assets/images/queen-${isWhite ? 'white' : 'black'}.avif`}
                   alt="Queen"
                   onClick={() => onClickPromotionEntity(Type.QUEEN)}
                 />
 
                 <img
-                  // src={require(`../assets/images/rook-${isWhite ? 'white' : 'black'}.avif`)}
+                  src={`/assets/images/rook-${isWhite ? 'white' : 'black'}.avif`}
                   alt="Rook"
                   onClick={() => onClickPromotionEntity(Type.ROOK)}
                 />
 
                 <img
-                  // src={require(`../assets/images/bishop-${isWhite ? 'white' : 'black'}.avif`)}
+                  src={`/assets/images/bishop-${isWhite ? 'white' : 'black'}.avif`}
                   alt="Bishop"
                   onClick={() => onClickPromotionEntity(Type.BISHOP)}
                 />
 
                 <img
-                  // src={`/assets/images/knight-${isWhite ? 'white' : 'black'}.avif`}
+                  src={`/assets/images/knight-${isWhite ? "white" : "black"}.avif`}
                   alt="Knight"
                   onClick={() => onClickPromotionEntity(Type.KNIGHT)}
                 />
