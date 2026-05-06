@@ -2,7 +2,6 @@ import { Entity } from "../entities/Entity";
 import { Board } from "../game/Board";
 import { MoveStrategy } from "./MoveStrategy";
 import { Position } from "../entities/Position";
-import { Color } from "../entities/Color";
 
 export class RookMoveStrategy extends MoveStrategy{
 

@@ -1,8 +1,5 @@
 import { Board } from "../game/Board";
 import { Position } from "../entities/Position";
-import { Entity } from "../entities/Entity";
-import { MoveStrategyFactory } from "./MoveStrategyFactory";
-import { Type } from "../entities/Type";
 
 export abstract class MoveStrategy {
 
