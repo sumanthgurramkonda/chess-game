@@ -1,12 +1,12 @@
 import React from 'react'
 import { Type } from '../entities/Type'
 import ReactDOM from 'react-dom'
-// import '.../App.css'
+
 
 export const PromotionEntities = ({isWhite, onClickPromotionEntity}: {isWhite: boolean, onClickPromotionEntity: (promoteTo: Type) => void}) => {
       
       return ReactDOM.createPortal (
-            <section className='promotionEntities'>
+            (<section className='promotionEntities'>
                 <img
                   // src={require(`../assets/images/queen-${isWhite ? 'white' : 'black'}.avif`)}
                   alt="Queen"
@@ -26,11 +26,11 @@ export const PromotionEntities = ({isWhite, onClickPromotionEntity}: {isWhite: b
                 />
 
                 <img
-                  // src={require(`../assets/images/knight-${isWhite ? 'white' : 'black'}.avif`)}
+                  // src={`/assets/images/knight-${isWhite ? 'white' : 'black'}.avif`}
                   alt="Knight"
                   onClick={() => onClickPromotionEntity(Type.KNIGHT)}
                 />
-            </section>,
+            </section>),
             document.getElementById('portal-root') as HTMLElement
     )
   

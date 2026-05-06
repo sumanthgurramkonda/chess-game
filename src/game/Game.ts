@@ -7,6 +7,9 @@ import { Board } from "./Board";
 import { Color } from "../entities/Color";
 import { MoveValidator } from "../utility/MoveValidator";
 import { Queen } from "../entities/Queen";
+import { Rook } from "../entities/Rook";
+import { Bishop } from "../entities/Bishop";
+import { Knight } from "../entities/Knight";
 
 export class Game{
 
@@ -115,7 +118,21 @@ export class Game{
             // throw new Error("No pawn at the given position to promote");
         }
         const color = entity.getColor();
-        const newEntity = new Queen(rowIndex, columnIndex, color);
+        let newEntity: Entity | null = null;
+        switch(promoteTo){
+            case Type.QUEEN:
+                newEntity = new Queen(rowIndex, columnIndex, color);
+                break;
+            case Type.ROOK:
+                newEntity = new Rook(rowIndex, columnIndex, color);
+                break;
+            case Type.BISHOP:
+                newEntity = new Bishop(rowIndex, columnIndex, color);
+                break;
+            case Type.KNIGHT:
+                newEntity = new Knight(rowIndex, columnIndex, color);
+                break;
+        }
         this.board.setPosition(rowIndex, columnIndex, newEntity);
         this.canPromotePawn = false;
     }
