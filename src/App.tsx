@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import './App.css';
 import { Entity } from './entities/Entity';
@@ -99,7 +99,7 @@ function App() {
   return (
     <>
         <div className="App" >
-          {game.isCheckMate() ? <div className='win'>{!isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
+          {game.isDraw() ||game.isCheckMate() ? <div className='win'>{game.isDraw() ? "DRAW" : !isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
             grid.map((row,colIndex)=>
               <div key={colIndex} className='row'>
                 {
