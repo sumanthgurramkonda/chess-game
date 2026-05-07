@@ -29,6 +29,16 @@ export abstract class Entity{
         this.columnIndex = columnIndex;
     }
 
+    public toJSON():String{
+
+        return JSON.stringify({
+            name:this.name,
+            rowIndex:this.rowIndex,
+            columnIndex:this.columnIndex,
+            color:this.color
+        });
+    }
+
     abstract clone():Entity | null;
 
 

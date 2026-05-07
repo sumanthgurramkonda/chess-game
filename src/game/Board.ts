@@ -88,4 +88,9 @@ export class Board {
         return board;
     }
 
+    public toJSON(): string {
+        const boardState = this.grid.map(row => row.map(entity => entity ? entity.toJSON() : null));
+        return JSON.stringify(boardState);
+    }
+
 }

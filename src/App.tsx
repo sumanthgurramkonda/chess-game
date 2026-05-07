@@ -17,15 +17,17 @@ function App() {
   const [currentEntity, setCurrentEntity] = React.useState<Entity | null>(null);
   const [isWhiteTurn, setIsWhiteTurn] = React.useState<boolean>(true);
   const [canPromotePawn, setCanPromotePawn] = React.useState<boolean>(false);
-  // const [isCheckMate,setIsCheckMate] = useState(false);
   const lastMovePos= game.getLastMovePos();
   function resetMoves(){
     setCurrentEntity(null);
     setMoves(Array(8).fill(null).map(() => Array(8).fill(false)));
   }
 
+  // console.log(board.toJSON());
+
   const onEntityClick = (rowIndex: number, colIndex: number) => {
       const entity = board.getBoardEntity(rowIndex, colIndex);
+
       // move entity to the new position
       if(currentEntity && moves[rowIndex][colIndex]){
           game.moveEntity(currentEntity.getRowIndex(), currentEntity.getColumnIndex(), rowIndex, colIndex);
@@ -52,6 +54,40 @@ function App() {
       setMoves(movesMap);
   }
 
+  function moveBlack(){
+    
+    if(!isWhiteTurn){
+        console.log('inside black 1')
+        const boardPos = board.toJSON();
+        const content = "You are chess player with black color. Just give them in json format with object name positions no any additional matter Give the next move with current entity currentRowIndex and currentColumnIndex and nextRowIndex and nextColumnIndex. Just give the json format without any additional matter. " + boardPos;
+        const body = {
+          conversationId : null,
+          message : content,
+          model : "llama3",
+          useRag : true
+        }
+        console.log(JSON.stringify(body))
+        fetch('http://localhost:8080/api/v1/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        })
+        .then(response => response.json())
+        .then(data => {
+          const move = JSON.parse(data.move);
+          console.log("nextMove ",move)
+          // game.moveEntity(move.currentRowIndex, move.currentColumnIndex, move.nextRowIndex, move.nextColumnIndex);
+          // setIsWhiteTurn(game.nextTurn());
+          // setCanPromotePawn(game.canPromotePawnFunc());
+          resetMoves();
+        }).catch(error=>{
+          console.error("Error in fetching move from backend ",error);
+        })
+      }
+  }
+
   const onClickPromotionEntity = (promoteTo: Type) =>{
       const pawn = board.getBoardEntity(lastMovePos[1][0], lastMovePos[1][1]);
       if(pawn){
@@ -63,7 +99,7 @@ function App() {
   return (
     <>
         <div className="App" >
-          {game.isCheckMate() ? <div className='win'>{isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
+          {game.isCheckMate() ? <div className='win'>{!isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
             grid.map((row,colIndex)=>
               <div key={colIndex} className='row'>
                 {
