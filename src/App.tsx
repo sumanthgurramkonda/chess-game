@@ -123,8 +123,8 @@ function App() {
                             entity!==null ?  
                                   (<img src={
                                     ((entity.getColor()===Color.WHITE) ? 
-                                        require(`..//assets/images/${entity.getName().toLocaleLowerCase()}-white.avif`) : 
-                                        require(`..//assets/images/${entity.getName().toLocaleLowerCase()}-black.avif`) ) 
+                                        require(`..//assets/images/white-${entity.getName().toLocaleLowerCase()}.png`) : 
+                                        require(`..//assets/images/black-${entity.getName().toLocaleLowerCase()}.png`) ) 
                                     } alt={entity ? entity.getName() : ""} 
                                     style={
                                           {border: moves && moves[colIndex][entIndex] ? '5px solid red' : '2px solid transparent',

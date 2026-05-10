@@ -29,10 +29,12 @@
   justify-content: center;
   cursor: pointer;
 }
+
 .cell img{
   width: 100%;
   height: 100%;
 }
+
 .move{
   width: 50%;
   height: 50%;
@@ -64,6 +66,25 @@
   cursor: pointer;
 }
 
+@media (max-width: 768px) {
+    /* .cell{
+      height: 2rem;
+      width: 2rem;
+      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    } */
+    .cell {
+      width: 12vw;
+      height: 12vw;
 
+      border: 1px solid black;
 
-
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+}
