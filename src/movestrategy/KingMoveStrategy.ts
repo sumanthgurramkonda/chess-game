@@ -6,7 +6,7 @@ import { Position } from "../entities/Position";
 
 export class KingMoveStrategy extends MoveStrategy {
 
-    king:Entity | null = null;
+    private king:Entity | null = null;
 
     generatePositions(rowIndex: number, columnIndex: number, board: Board): Position[] {
         this.positions = [];

@@ -20,6 +20,14 @@ export class Game{
     private isWhiteTurn:boolean = true;
     private lastMovePos: number[][];
     private canPromotePawn:boolean = false;
+    
+    private isWhiteKingMoved:boolean = false;
+    private isLeftWhiteRookMoved:boolean = false;
+    private isRightWhiteRookMoved:boolean = false;
+
+    private isBlackKingMoved:boolean = false
+    private isLeftBlackRookMoved:boolean = false;
+    private isRightBlackRookMoved:boolean = false;
 
     constructor(){
         this.whiteDeadEntities = [];
@@ -58,6 +66,13 @@ export class Game{
 
         this.board.setPosition(toRow, toCol, entity);
         this.board.setPosition(fromRow, fromCol, null);
+        if(toCol === 6){
+                this.board.setPosition(toRow, 5, this.board.getBoardEntity(toRow, 7));
+                this.board.setPosition(toRow, 7, null);
+        }else if(toCol === 2){
+            this.board.setPosition(toRow, 3, this.board.getBoardEntity(toRow, 0));
+            this.board.setPosition(toRow, 0, null);
+        }
 
         this.lastMovePos[0][0] = fromRow;
         this.lastMovePos[0][1] = fromCol;
@@ -68,6 +83,29 @@ export class Game{
             // promote pawn
             this.canPromotePawn = true;
         }
+
+        if(entity.getName() === Type.KING){
+            if(this.isWhiteTurn){
+                this.isWhiteKingMoved = true;
+            } else {
+                this.isBlackKingMoved = true;
+            }
+        }else if(entity.getName() === Type.ROOK){
+            if(this.isWhiteTurn){
+                if(fromCol === 0){
+                    this.isLeftWhiteRookMoved = true;
+                } else if(fromCol === 7){
+                    this.isRightWhiteRookMoved = true;
+                }
+            } else {
+                if(fromCol === 0){
+                    this.isLeftBlackRookMoved = true;
+                } else if(fromCol === 7){
+                    this.isRightBlackRookMoved = true;
+                }
+            }
+        }
+
         this.changeTurn();
     }
 
@@ -106,6 +144,21 @@ export class Game{
         const moveStrategy: MoveStrategy = this.moveStrategyMap.get(entity.getName())!;
 
         const positions:Position[] = moveStrategy.generatePositions(rowIndex, columnIndex, this.board);
+        if(entity.getName() === Type.KING){
+                if(this.isWhiteTurn && !this.isWhiteKingMoved){
+                    if(!this.board.getBoardEntity(rowIndex, columnIndex+1) && !this.board.getBoardEntity(rowIndex, columnIndex+2) && !this.isRightWhiteRookMoved){
+                        positions.push(new Position(rowIndex, columnIndex+2));
+                    }else if(!this.board.getBoardEntity(rowIndex, columnIndex-1) && !this.board.getBoardEntity(rowIndex, columnIndex-2) && !this.isLeftWhiteRookMoved){
+                        positions.push(new Position(rowIndex, columnIndex-2));
+                    }
+                } else if(!this.isBlackKingMoved){
+                    if(!this.board.getBoardEntity(rowIndex, columnIndex+1) && !this.board.getBoardEntity(rowIndex, columnIndex+2) && !this.isRightBlackRookMoved){
+                        positions.push(new Position(rowIndex, columnIndex+2));
+                    }else if(!this.board.getBoardEntity(rowIndex, columnIndex-1) && !this.board.getBoardEntity(rowIndex, columnIndex-2) && !this.isLeftBlackRookMoved){
+                        positions.push(new Position(rowIndex, columnIndex-2));
+                    }
+                }
+        }
         return MoveValidator.filterValidMoves(entity.getColor()===Color.WHITE, rowIndex,columnIndex,positions,this.board);
         // return positions;
     }
@@ -149,7 +202,7 @@ export class Game{
 
     public isWin():boolean{
 
-        return true; 
+        return MoveValidator.isCheckmate(this.isWhiteTurn, this.board);; 
     }
 
 
@@ -163,10 +216,6 @@ export class Game{
 
     public getBlackDeadEntities(): Entity[] {
         return this.blackDeadEntities;
-    }
-
-    public isCheckMate():boolean{
-        return MoveValidator.isCheckmate(this.isWhiteTurn, this.board);
     }
 
     public nextTurn():boolean{

@@ -18,6 +18,7 @@ function App() {
   const [isWhiteTurn, setIsWhiteTurn] = React.useState<boolean>(true);
   const [canPromotePawn, setCanPromotePawn] = React.useState<boolean>(false);
   const lastMovePos= game.getLastMovePos();
+
   function resetMoves(){
     setCurrentEntity(null);
     setMoves(Array(8).fill(null).map(() => Array(8).fill(false)));
@@ -99,7 +100,7 @@ function App() {
   return (
     <>
         <div className="App" >
-          {game.isDraw() ||game.isCheckMate() ? <div className='win'>{game.isDraw() ? "DRAW" : !isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
+          {game.isDraw() || game.isWin() ? <div className='win'>{game.isDraw() ? "DRAW" : !isWhiteTurn ? "WHITE WIN" : "BLACK WIN"}</div> :
             grid.map((row,colIndex)=>
               <div key={colIndex} className='row'>
                 {

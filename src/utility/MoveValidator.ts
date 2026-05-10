@@ -124,7 +124,7 @@ export class MoveValidator{
         });
     }
 
-    private static isKingSafe(isWhite: boolean, board: Board): boolean {
+    static isKingSafe(isWhite: boolean, board: Board): boolean {
         const king = isWhite ? board.getWhiteKing() : board.getBlackKing();
         if(!king){
             throw new Error("king not found")
@@ -137,7 +137,7 @@ export class MoveValidator{
         );
     }
 
-    private static isSquareAttacked(row: number, col: number, byWhite: boolean, board: Board): boolean {
+    static isSquareAttacked(row: number, col: number, byWhite: boolean, board: Board): boolean {
 
         const grid = board.getGrid();
 
