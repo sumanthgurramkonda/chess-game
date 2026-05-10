@@ -66,15 +66,38 @@ export class Game{
 
         this.board.setPosition(toRow, toCol, entity);
         this.board.setPosition(fromRow, fromCol, null);
-        if(entity.getName() === Type.KING && 
-                (!this.isBlackKingMoved && !this.isLeftBlackRookMoved && !this.isRightBlackRookMoved) || 
-                (!this.isWhiteKingMoved && !this.isLeftWhiteRookMoved && !this.isRightWhiteRookMoved)){
-            if(toCol === 6){
-                this.board.setPosition(toRow, 5, this.board.getBoardEntity(toRow, 7));
-                this.board.setPosition(toRow, 7, null);
-            }else if(toCol === 2){
-                this.board.setPosition(toRow, 3, this.board.getBoardEntity(toRow, 0));
-                this.board.setPosition(toRow, 0, null);
+        if (entity.getName() === Type.KING) {
+
+            const isCastlingMove = Math.abs(toCol - fromCol) === 2;
+
+            if (isCastlingMove) {
+
+                // kingside
+                if (toCol === 6) {
+
+                    const rook = this.board.getBoardEntity(toRow, 7);
+
+                    this.board.setPosition(toRow, 5, rook);
+                    this.board.setPosition(toRow, 7, null);
+
+                    if (rook) {
+                        rook.setPosition(toRow, 5);
+                    }
+
+                }
+
+                // queenside
+                else if (toCol === 2) {
+
+                    const rook = this.board.getBoardEntity(toRow, 0);
+
+                    this.board.setPosition(toRow, 3, rook);
+                    this.board.setPosition(toRow, 0, null);
+
+                    if (rook) {
+                        rook.setPosition(toRow, 3);
+                    }
+                }
             }
         }
 
