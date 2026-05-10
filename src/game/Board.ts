@@ -63,7 +63,6 @@ export class Board {
         if(entity !== null){
             entity.setPosition(rowIndex, columnIndex);
         }
-        
     }
 
     getGrid(): (Entity|null)[][] {

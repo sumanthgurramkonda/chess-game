@@ -8,7 +8,7 @@ import { Position } from "../entities/Position";
 export class QueenMoveStrategy extends MoveStrategy{
 
     
-    queen:Entity | null = null;
+    private queen:Entity | null = null;
 
     generatePositions(rowIndex: number, columnIndex: number, board: Board): Position[]{
         this.positions = [];

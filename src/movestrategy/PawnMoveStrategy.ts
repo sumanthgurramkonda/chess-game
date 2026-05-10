@@ -6,7 +6,7 @@ import { Position } from "../entities/Position";
 
 export class PawnMoveStrategy extends MoveStrategy {
 
-    pawn:Entity | null = null;
+    private pawn:Entity | null = null;
 
     generatePositions(rowIndex: number, columnIndex: number, board: Board): Position[] {
         

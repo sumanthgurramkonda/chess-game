@@ -6,7 +6,7 @@ import { Position } from "../entities/Position";
 
 export class BishopMoveStrategy extends MoveStrategy{
 
-    bishop:Entity | null = null;
+    private bishop:Entity | null = null;
 
     generatePositions(rowIndex: number, columnIndex: number, board: Board): Position[]{
 

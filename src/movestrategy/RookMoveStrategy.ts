@@ -5,7 +5,7 @@ import { Position } from "../entities/Position";
 
 export class RookMoveStrategy extends MoveStrategy{
 
-    rook:Entity | null = null;
+    private rook:Entity | null = null;
 
     generatePositions(rowIndex: number, columnIndex: number, board: Board): Position[]{
 
