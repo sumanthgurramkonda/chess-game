@@ -66,24 +66,15 @@ export class Game{
 
         this.board.setPosition(toRow, toCol, entity);
         this.board.setPosition(fromRow, fromCol, null);
-        if(toCol === 6){
-            this.board.setPosition(toRow, 5, this.board.getBoardEntity(toRow, 7));
-            this.board.setPosition(toRow, 7, null);
-        }else if(toCol === 2){
-            this.board.setPosition(toRow, 3, this.board.getBoardEntity(toRow, 0));
-            this.board.setPosition(toRow, 0, null);
+        if(entity.getName() === Type.KING){
+            if(toCol === 6){
+                this.board.setPosition(toRow, 5, this.board.getBoardEntity(toRow, 7));
+                this.board.setPosition(toRow, 7, null);
+            }else if(toCol === 2){
+                this.board.setPosition(toRow, 3, this.board.getBoardEntity(toRow, 0));
+                this.board.setPosition(toRow, 0, null);
+            }
         }
-
-        this.lastMovePos[0][0] = fromRow;
-        this.lastMovePos[0][1] = fromCol;
-        this.lastMovePos[1][0] = toRow;
-        this.lastMovePos[1][1] = toCol;
-
-        if(entity.getName() === Type.PAWN && ((!this.isWhiteTurn && toRow === 0) || (this.isWhiteTurn &&toRow === 7))){
-            // promote pawn
-            this.canPromotePawn = true;
-        }
-
         if(entity.getName() === Type.KING){
             if(this.isWhiteTurn){
                 this.isWhiteKingMoved = true;
@@ -104,6 +95,16 @@ export class Game{
                     this.isRightBlackRookMoved = true;
                 }
             }
+        }
+
+        this.lastMovePos[0][0] = fromRow;
+        this.lastMovePos[0][1] = fromCol;
+        this.lastMovePos[1][0] = toRow;
+        this.lastMovePos[1][1] = toCol;
+
+        if(entity.getName() === Type.PAWN && ((!this.isWhiteTurn && toRow === 0) || (this.isWhiteTurn &&toRow === 7))){
+            // promote pawn
+            this.canPromotePawn = true;
         }
 
         this.changeTurn();
