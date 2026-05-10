@@ -66,7 +66,9 @@ export class Game{
 
         this.board.setPosition(toRow, toCol, entity);
         this.board.setPosition(fromRow, fromCol, null);
-        if(entity.getName() === Type.KING){
+        if(entity.getName() === Type.KING && 
+                (!this.isBlackKingMoved && !this.isLeftBlackRookMoved && !this.isRightBlackRookMoved) || 
+                (!this.isWhiteKingMoved && !this.isLeftWhiteRookMoved && !this.isRightWhiteRookMoved)){
             if(toCol === 6){
                 this.board.setPosition(toRow, 5, this.board.getBoardEntity(toRow, 7));
                 this.board.setPosition(toRow, 7, null);
@@ -75,6 +77,7 @@ export class Game{
                 this.board.setPosition(toRow, 0, null);
             }
         }
+
         if(entity.getName() === Type.KING){
             if(this.isWhiteTurn){
                 this.isWhiteKingMoved = true;
