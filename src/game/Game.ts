@@ -67,8 +67,8 @@ export class Game{
         this.board.setPosition(toRow, toCol, entity);
         this.board.setPosition(fromRow, fromCol, null);
         if(toCol === 6){
-                this.board.setPosition(toRow, 5, this.board.getBoardEntity(toRow, 7));
-                this.board.setPosition(toRow, 7, null);
+            this.board.setPosition(toRow, 5, this.board.getBoardEntity(toRow, 7));
+            this.board.setPosition(toRow, 7, null);
         }else if(toCol === 2){
             this.board.setPosition(toRow, 3, this.board.getBoardEntity(toRow, 0));
             this.board.setPosition(toRow, 0, null);
@@ -144,7 +144,7 @@ export class Game{
         const moveStrategy: MoveStrategy = this.moveStrategyMap.get(entity.getName())!;
 
         const positions:Position[] = moveStrategy.generatePositions(rowIndex, columnIndex, this.board);
-        if(entity.getName() === Type.KING){
+        if(entity.getName() === Type.KING && MoveValidator.isKingSafe(entity.getColor() === Color.WHITE, this.board)){
                 if(this.isWhiteTurn && !this.isWhiteKingMoved){
                     if(!this.board.getBoardEntity(rowIndex, columnIndex+1) && !this.board.getBoardEntity(rowIndex, columnIndex+2) && !this.isRightWhiteRookMoved){
                         positions.push(new Position(rowIndex, columnIndex+2));
