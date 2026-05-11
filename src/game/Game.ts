@@ -10,7 +10,7 @@ import { Queen } from "../entities/Queen";
 import { Rook } from "../entities/Rook";
 import { Bishop } from "../entities/Bishop";
 import { Knight } from "../entities/Knight";
-import AIPlayer from "../aiplayer/AIPlayer";
+// import AIPlayer from "../aiplayer/AIPlayer";
 
 export class Game{
 
@@ -21,7 +21,7 @@ export class Game{
     private isWhiteTurn:boolean = true;
     private lastMovePos: number[][];
     private canPromotePawn:boolean = false;
-    private aiPlayer: AIPlayer | null = null;
+    // private aiPlayer: AIPlayer | null = null;
     
     private isWhiteKingMoved:boolean = false;
     private isLeftWhiteRookMoved:boolean = false;
@@ -38,30 +38,30 @@ export class Game{
         this.board.initializeBoard();
         this.lastMovePos = [[-1,-1],[-1,-1]]
         this.moveStrategyMap = new Map<Type, MoveStrategy>();
-        this.aiPlayer = new AIPlayer();
-        if(isAIPlayer){
-        }
+        // this.aiPlayer = new AIPlayer();
+        // if(isAIPlayer){
+        // }
     }
 
-    public async makeAIMove(): Promise<void>{
+    // public async makeAIMove(): Promise<void>{
         
-        console.log("Inside makeAIMove outside if");
-        if(this.aiPlayer){
-            console.log("Inside makeAIMove");
-            const aiMoves = await this.aiPlayer.makeMove(this.isWhiteTurn, this.board).then(moves=>{
-                console.log("AI moves : ", moves)
-                return moves;
-            }).catch(err=>{
-                console.error("Error in making AI move: ", err);
-                return null;
-            });
+    //     console.log("Inside makeAIMove outside if");
+    //     if(this.aiPlayer){
+    //         console.log("Inside makeAIMove");
+    //         const aiMoves = await this.aiPlayer.makeMove(this.isWhiteTurn, this.board).then(moves=>{
+    //             console.log("AI moves : ", moves)
+    //             return moves;
+    //         }).catch(err=>{
+    //             console.error("Error in making AI move: ", err);
+    //             return null;
+    //         });
 
-            if(aiMoves){
-                this.moveEntity(aiMoves.currentRowIndex, aiMoves.currentColumnIndex, aiMoves.nextRowIndex, aiMoves.nextColumnIndex);
-                this.canPromotePawn = this.canPromotePawnFunc();
-            }
-        }
-    }
+    //         if(aiMoves){
+    //             this.moveEntity(aiMoves.currentRowIndex, aiMoves.currentColumnIndex, aiMoves.nextRowIndex, aiMoves.nextColumnIndex);
+    //             this.canPromotePawn = this.canPromotePawnFunc();
+    //         }
+    //     }
+    // }
 
     public moveEntity(fromRow: number, fromCol: number, toRow: number, toCol: number): void {
         const entity:Entity | null = this.board.getBoardEntity(fromRow, fromCol);
