@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import './App.css';
 import { Game } from './game/Game';
-import Boardui from './Boardui'
+import BoardUI from './BoardUI'
 
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
   return (
     <>
         <div className="App" >
-            <Boardui game={game}/>
+            <BoardUI game={game}/>
         </div>
     </>
   );
