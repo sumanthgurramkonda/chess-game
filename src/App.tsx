@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import './App.css';
 import { Game } from './game/Game';
-import Board from './Board';
+import BoardUI from './BoardUI';
 
 function App() {
 
@@ -11,7 +11,7 @@ function App() {
   return (
     <>
         <div className="App" >
-            <Board game={game}/>
+            <BoardUI game={game}/>
         </div>
     </>
   );
