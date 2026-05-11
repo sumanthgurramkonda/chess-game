@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import './App.css';
 import { Entity } from './entities/Entity';
@@ -7,10 +7,12 @@ import { Color } from './entities/Color';
 import { Game } from './game/Game';
 import { Type } from './entities/Type';
 import { PromotionEntities } from './components/PromotionEntities';
+import AIPlayer from './aiplayer/AIPlayer';
 
 function App() {
 
   const [game] = useState<Game>(new Game());
+  const [aiPlayer] = useState<any>(new AIPlayer());
   const board = game.getBoard();
   const grid: (Entity|null)[][] = board.getGrid();
   const [moves, setMoves] = React.useState<boolean[][]>(Array(8).fill(null).map(() => Array(8).fill(false)));
@@ -37,57 +39,39 @@ function App() {
           resetMoves();
           return;
       }
+
       // validates enity turn is valid (if previously selected entity is white, present should be black or vice versa)
       if(entity !== null && entity.getColor() !== (isWhiteTurn ? Color.WHITE : Color.BLACK)){
         resetMoves();
         return;
       }
+
       const positions:Position[] = game.getMoves(rowIndex, colIndex);
       if(positions.length === 0){
         resetMoves();
         return;
       }
+
       setCurrentEntity(entity);
+
       const movesMap = Array(8).fill(null).map(() => Array(8).fill(false));
       positions.forEach(p=>{
         movesMap[p.getRowIndex()][p.getColumnIndex()] = true;
       })
+
       setMoves(movesMap);
+    
   }
 
-  function moveBlack(){
-    
-    if(!isWhiteTurn){
-        console.log('inside black 1')
-        const boardPos = board.toJSON();
-        const content = "You are chess player with black color. Just give them in json format with object name positions no any additional matter Give the next move with current entity currentRowIndex and currentColumnIndex and nextRowIndex and nextColumnIndex. Just give the json format without any additional matter. " + boardPos;
-        const body = {
-          conversationId : null,
-          message : content,
-          model : "llama3",
-          useRag : true
-        }
-        console.log(JSON.stringify(body))
-        fetch('http://localhost:8080/api/v1/chat', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        })
-        .then(response => response.json())
-        .then(data => {
-          const move = JSON.parse(data.move);
-          console.log("nextMove ",move)
-          // game.moveEntity(move.currentRowIndex, move.currentColumnIndex, move.nextRowIndex, move.nextColumnIndex);
-          // setIsWhiteTurn(game.nextTurn());
-          // setCanPromotePawn(game.canPromotePawnFunc());
-          resetMoves();
-        }).catch(error=>{
-          console.error("Error in fetching move from backend ",error);
-        })
-      }
-  }
+  // useEffect(()=>{
+  //   const makeAIMove = async () => {
+  //     if(game && !isWhiteTurn && aiPlayer){
+  //         await game.makeAIMove();
+  //         setIsWhiteTurn(game.nextTurn());
+  //     }
+  //   };
+  //   makeAIMove();
+  // }, [isWhiteTurn, game, board]);
 
   const onClickPromotionEntity = (promoteTo: Type) =>{
       const pawn = board.getBoardEntity(lastMovePos[1][0], lastMovePos[1][1]);

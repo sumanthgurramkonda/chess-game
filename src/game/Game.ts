@@ -10,6 +10,7 @@ import { Queen } from "../entities/Queen";
 import { Rook } from "../entities/Rook";
 import { Bishop } from "../entities/Bishop";
 import { Knight } from "../entities/Knight";
+import AIPlayer from "../aiplayer/AIPlayer";
 
 export class Game{
 
@@ -20,6 +21,7 @@ export class Game{
     private isWhiteTurn:boolean = true;
     private lastMovePos: number[][];
     private canPromotePawn:boolean = false;
+    private aiPlayer: AIPlayer | null = null;
     
     private isWhiteKingMoved:boolean = false;
     private isLeftWhiteRookMoved:boolean = false;
@@ -29,13 +31,36 @@ export class Game{
     private isLeftBlackRookMoved:boolean = false;
     private isRightBlackRookMoved:boolean = false;
 
-    constructor(){
+    constructor(isAIPlayer: boolean = false){
         this.whiteDeadEntities = [];
         this.blackDeadEntities = [];
         this.board = new Board();
         this.board.initializeBoard();
         this.lastMovePos = [[-1,-1],[-1,-1]]
         this.moveStrategyMap = new Map<Type, MoveStrategy>();
+        this.aiPlayer = new AIPlayer();
+        if(isAIPlayer){
+        }
+    }
+
+    public async makeAIMove(): Promise<void>{
+        
+        console.log("Inside makeAIMove outside if");
+        if(this.aiPlayer){
+            console.log("Inside makeAIMove");
+            const aiMoves = await this.aiPlayer.makeMove(this.isWhiteTurn, this.board).then(moves=>{
+                console.log("AI moves : ", moves)
+                return moves;
+            }).catch(err=>{
+                console.error("Error in making AI move: ", err);
+                return null;
+            });
+
+            if(aiMoves){
+                this.moveEntity(aiMoves.currentRowIndex, aiMoves.currentColumnIndex, aiMoves.nextRowIndex, aiMoves.nextColumnIndex);
+                this.canPromotePawn = this.canPromotePawnFunc();
+            }
+        }
     }
 
     public moveEntity(fromRow: number, fromCol: number, toRow: number, toCol: number): void {
@@ -171,17 +196,20 @@ export class Game{
         const moveStrategy: MoveStrategy = this.moveStrategyMap.get(entity.getName())!;
 
         const positions:Position[] = moveStrategy.generatePositions(rowIndex, columnIndex, this.board);
+
         if(entity.getName() === Type.KING && MoveValidator.isKingSafe(entity.getColor() === Color.WHITE, this.board)){
                 if(this.isWhiteTurn && !this.isWhiteKingMoved){
                     if(!this.board.getBoardEntity(rowIndex, columnIndex+1) && !this.board.getBoardEntity(rowIndex, columnIndex+2) && !this.isRightWhiteRookMoved){
                         positions.push(new Position(rowIndex, columnIndex+2));
-                    }else if(!this.board.getBoardEntity(rowIndex, columnIndex-1) && !this.board.getBoardEntity(rowIndex, columnIndex-2) && !this.isLeftWhiteRookMoved){
+                    }
+                    if(!this.board.getBoardEntity(rowIndex, columnIndex-1) && !this.board.getBoardEntity(rowIndex, columnIndex-2) && !this.isLeftWhiteRookMoved){
                         positions.push(new Position(rowIndex, columnIndex-2));
                     }
                 } else if(!this.isBlackKingMoved){
                     if(!this.board.getBoardEntity(rowIndex, columnIndex+1) && !this.board.getBoardEntity(rowIndex, columnIndex+2) && !this.isRightBlackRookMoved){
                         positions.push(new Position(rowIndex, columnIndex+2));
-                    }else if(!this.board.getBoardEntity(rowIndex, columnIndex-1) && !this.board.getBoardEntity(rowIndex, columnIndex-2) && !this.isLeftBlackRookMoved){
+                    }
+                    if(!this.board.getBoardEntity(rowIndex, columnIndex-1) && !this.board.getBoardEntity(rowIndex, columnIndex-2) && !this.isLeftBlackRookMoved){
                         positions.push(new Position(rowIndex, columnIndex-2));
                     }
                 }
