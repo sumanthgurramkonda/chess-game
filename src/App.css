@@ -60,18 +60,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.5;
+  opacity: 0.8;
 }
 
 .promotionEntities img{
   width: 7rem;
   height: 7rem;
   border: 2px solid black;
-  cursor: pointer;
   border-radius : '10px';
+  cursor: pointer;
   padding: '5px';
   background-color: wheat;
-  opacity: 1;
+  /* opacity: 1; */
 }
 
 @media (max-width: 768px) {
