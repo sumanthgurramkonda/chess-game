@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 
 import './App.css';
 import { Game } from './game/Game';
-import BoardUI from './BoardUI';
+import Boardui from './Boardui'
+
 
 function App() {
 
@@ -11,7 +12,7 @@ function App() {
   return (
     <>
         <div className="App" >
-            <BoardUI game={game}/>
+            <Boardui game={game}/>
         </div>
     </>
   );
