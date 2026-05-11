@@ -7,12 +7,10 @@ import { Color } from './entities/Color';
 import { Game } from './game/Game';
 import { Type } from './entities/Type';
 import { PromotionEntities } from './components/PromotionEntities';
-import AIPlayer from './aiplayer/AIPlayer';
 
 function App() {
 
   const [game] = useState<Game>(new Game());
-  const [aiPlayer] = useState<any>(new AIPlayer());
   const board = game.getBoard();
   const grid: (Entity|null)[][] = board.getGrid();
   const [moves, setMoves] = React.useState<boolean[][]>(Array(8).fill(null).map(() => Array(8).fill(false)));
