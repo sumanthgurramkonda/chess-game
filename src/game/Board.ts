@@ -15,17 +15,17 @@ export class Board {
 
     constructor() {
         this.grid = Array(8).fill(null).map(() => Array(8).fill(null));
-        this.whiteKing = new King(0, 4, Color.WHITE);
-        this.blackKing = new King(7, 4, Color.BLACK);
+        this.whiteKing = new King(0, 3, Color.WHITE);
+        this.blackKing = new King(7, 3, Color.BLACK);
         // this.initializeBoard();
     }
 
     initializeBoard(): void{
 
-        this.grid[0][4] = this.whiteKing;
-        this.grid[7][4] = this.blackKing;
-        this.grid[0][3] = new Queen(0, 3, Color.WHITE);
-        this.grid[7][3] = new Queen(7, 3, Color.BLACK);
+        this.grid[0][3] = this.whiteKing;
+        this.grid[7][3] = this.blackKing;
+        this.grid[0][4] = new Queen(0, 4, Color.WHITE);
+        this.grid[7][4] = new Queen(7, 4, Color.BLACK);
 
         this.grid[0][2] = new Bishop(0, 2, Color.WHITE);
         this.grid[0][5] = new Bishop(0, 5, Color.WHITE);
